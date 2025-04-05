@@ -86,3 +86,6 @@ jobs:
           script: |
             docker load -i /tmp/deploy/celebrity-strike.tar
             docker compose -f /docker/docker-compose.yml up -d
+            echo "Pruning unused Docker images..."
+            docker image prune -af
+            rm -f /tmp/deploy/celebrity-strike.tar

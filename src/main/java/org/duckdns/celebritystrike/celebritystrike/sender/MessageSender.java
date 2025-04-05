@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 public class MessageSender {
     private final TelegramClient client;
 
-    public MessageSender(@Value("${DEMO_BOT_TOKEN}") String token) {
+    public MessageSender(@Value("${telegram.bot.token}") String token) {
         this.client = new OkHttpTelegramClient(token);
     }
 

@@ -33,7 +33,7 @@ services:
       - VIRTUAL_PORT=18080
       - VIRTUAL_HOST=celebrity-strike.duckdns.org
       - LETSENCRYPT_HOST=celebrity-strike.duckdns.org
-      - LETSENCRYPT_EMAIL=gotziev@@gmail.com
+      - LETSENCRYPT_EMAIL=gotziev@gmail.com
       - BOT_TOKEN=${BOT_TOKEN}
     expose:
       - "18080"

@@ -1,1 +1,12 @@
-spring.application.name: CelebrityStrike
+# Spring
+spring.application.name: Celebrity-Strike
+
+# Server
+server:
+  port: 18080
+
+# Telegram
+telegram:
+  bot:
+    token: ${BOT_TOKEN}
+    frontend-url: https://elenasoshina.github.io

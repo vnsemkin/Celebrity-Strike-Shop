@@ -23,18 +23,18 @@ jobs:
         run: gradle build -x test
 
       - name: Build Docker image
-        run: docker build -t demo-backend:latest .
+        run: docker build -t celebrity-strike:latest .
 
       - name: Save Docker image as tar file
-        run: docker save demo-backend:latest > demo-backend.tar
+        run: docker save celebrity-strike:latest > celebrity-strike.tar
 
       - name: Check tar file size
-        run: ls -lh demo-backend.tar
+        run: ls -lh celebrity-strike.tar
 
       - name: Move tar file into folder
         run: |
           mkdir -p deploy
-          mv demo-backend.tar deploy/
+          mv celebrity-strike.tar deploy/
 
       # New step: Clear remote /tmp/deploy folder before copy
       - name: Clear remote /tmp/deploy folder
@@ -56,7 +56,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: 22
-          source: "deploy/demo-backend.tar"
+          source: "deploy/celebrity-strike.tar"
           target: "/tmp/deploy/"
           timeout: 300s
           proxy_timeout: 180s
@@ -84,5 +84,5 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: 22
           script: |
-            docker load -i /tmp/deploy/demo-backend.tar
+            docker load -i /tmp/deploy/celebrity-strike.tar
             docker compose -f /docker/docker-compose.yml up -d

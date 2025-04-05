@@ -25,9 +25,9 @@ services:
       - ../nginx/vhost.d:/etc/nginx/vhost.d:rw
       - html:/usr/share/nginx/html
 
-  demo-backend:
+  celebrity-strike-backend:
     image: demo-backend:latest
-    container_name: demo-backend
+    container_name: celebrity-strike
     restart: always
     environment:
       - VIRTUAL_PORT=18080

@@ -16,9 +16,10 @@ public class StartCommandHandler<T> implements CommandHandler {
     private final ConversationManager<T> conversationManager;
     private final MessageSender sender;
     private final static String WELCOME = """
-            👋 Welcome, %s!
-            I am BOT-ZADROT!
-            Looking forward to assisting you!""";
+            👋 Привет, %s!
+            Ты в магазине Celebrity Strike 🚀!
+            Получи доступные команды набрав: /menu
+            Начинаем покупки🎉!""";
 
     @Override
     public void handle(@NonNull Message message) {

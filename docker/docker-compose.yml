@@ -26,7 +26,7 @@ services:
       - html:/usr/share/nginx/html
 
   celebrity-strike-backend:
-    image: demo-backend:latest
+    image: celebrity-strike:latest
     container_name: celebrity-strike
     restart: always
     environment:

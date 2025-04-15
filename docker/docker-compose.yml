@@ -43,6 +43,7 @@ services:
     container_name: celebrity-strike
     restart: always
     environment:
+      - DATABASE_HOST=celebrity-strike-db
       - VIRTUAL_PORT=18080
       - VIRTUAL_HOST=celebrity-strike.duckdns.org
       - LETSENCRYPT_HOST=celebrity-strike.duckdns.org

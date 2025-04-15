@@ -28,6 +28,7 @@ repositories {
 dependencies {
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Telegram
     implementation "org.telegram:telegrambots-longpolling:${TELEGRAM_LIBRARY_VERSION}"

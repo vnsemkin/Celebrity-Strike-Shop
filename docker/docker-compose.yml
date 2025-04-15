@@ -1,4 +1,21 @@
+name: celebrity-strike
 services:
+  celebrity-strike-db:
+    image: postgres:17
+    container_name: celebrity-strike
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${CELEBRITY_STRIKE_DB}
+      POSTGRES_USER: ${CELEBRITY_STRIKE_USER}
+      POSTGRES_PASSWORD: ${CELEBRITY_STRIKE_PASSWORD}
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      arbitrage:
+        aliases:
+          - "celebrity-strike-db"
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy

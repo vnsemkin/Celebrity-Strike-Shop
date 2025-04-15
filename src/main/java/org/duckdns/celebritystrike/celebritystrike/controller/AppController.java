@@ -2,7 +2,7 @@ package org.duckdns.celebritystrike.celebritystrike.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.duckdns.celebritystrike.celebritystrike.model.RequestDataDto;
+import org.duckdns.celebritystrike.celebritystrike.dto.RequestDataDto;
 import org.duckdns.celebritystrike.celebritystrike.service.web_handlers.DefaultWebHandler;
 import org.springframework.web.bind.annotation.*;
 

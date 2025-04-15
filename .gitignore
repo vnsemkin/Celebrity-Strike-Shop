@@ -36,3 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 /gradle/
+/src/main/resources/application-dev.yml
+/docker/docker-compose-dev.yml

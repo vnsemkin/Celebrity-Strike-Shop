@@ -2,7 +2,7 @@ name: celebrity-strike
 services:
   celebrity-strike-db:
     image: postgres:17
-    container_name: celebrity-strike
+    container_name: celebrity-strike-db
     ports:
       - "5432:5432"
     environment:

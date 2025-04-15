@@ -59,6 +59,7 @@ services:
           memory: 512M
 
 volumes:
+  postgres_data:
   certs:
   vhost:
   html:

@@ -12,10 +12,6 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      arbitrage:
-        aliases:
-          - "celebrity-strike-db"
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy

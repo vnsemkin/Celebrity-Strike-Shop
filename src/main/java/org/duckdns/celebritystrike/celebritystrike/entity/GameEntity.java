@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "games")
+@ToString(exclude = {"imageEntities", "items"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class GameEntity {
   @Id
@@ -19,10 +22,30 @@ public class GameEntity {
   private String title;
   private String description;
   private String instruction;
-  @OneToMany
-  @JoinColumn(name = "game_id")
-  private Set<Image> images;
-  @OneToMany
-  @JoinColumn(name = "game_id")
-  private Set<GameItem> items;
+  
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ImageEntity> imageEntities = new ArrayList<>();
+  
+  @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<GameItemEntity> items = new ArrayList<>();
+  
+  public void addImage(ImageEntity image) {
+    imageEntities.add(image);
+    image.setGame(this);
+  }
+  
+  public void removeImage(ImageEntity image) {
+    imageEntities.remove(image);
+    image.setGame(null);
+  }
+  
+  public void addItem(GameItemEntity item) {
+    items.add(item);
+    item.setGame(this);
+  }
+  
+  public void removeItem(GameItemEntity item) {
+    items.remove(item);
+    item.setGame(null);
+  }
 }

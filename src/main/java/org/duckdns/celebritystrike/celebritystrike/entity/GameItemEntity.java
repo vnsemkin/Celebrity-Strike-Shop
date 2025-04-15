@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "game_items")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class GameItem {
+public class GameItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,4 +23,7 @@ public class GameItem {
     private String details;
     @Column(nullable = false)
     private Integer price;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id", nullable = false)
+    private GameEntity game;
 }

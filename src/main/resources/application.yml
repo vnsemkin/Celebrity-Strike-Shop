@@ -1,5 +1,16 @@
 # Spring
-spring.application.name: Celebrity-Strike
+spring:
+  application.name: Celebrity-Strike
+
+#Datasource
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:5432/${CELEBRITY_STRIKE_DB}
+    username: ${CELEBRITY_STRIKE_USER}
+    password: ${CELEBRITY_STRIKE_PASSWORD}
+
+#Liquibase
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.sql
 
 # Server
 server:

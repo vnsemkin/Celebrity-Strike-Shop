@@ -10,11 +10,15 @@ import lombok.Setter;
 @Setter
 @Table(name = "images")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Image {
+public class ImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Lob
-    @Column(columnDefinition = "BYTEA", nullable = false)
-    private byte[] image;
+    
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "game_id", nullable = false)
+    private GameEntity game;
 }

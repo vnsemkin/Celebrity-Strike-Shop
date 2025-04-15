@@ -8,6 +8,7 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 def TELEGRAM_LIBRARY_VERSION = "8.2.0"
+def MAPSTRUCT_VERSION = "1.6.3"
 
 java {
     toolchain {
@@ -29,10 +30,17 @@ dependencies {
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.liquibase:liquibase-core'
+    runtimeOnly 'org.postgresql:postgresql'
 
     // Telegram
     implementation "org.telegram:telegrambots-longpolling:${TELEGRAM_LIBRARY_VERSION}"
     implementation "org.telegram:telegrambots-client:${TELEGRAM_LIBRARY_VERSION}"
+
+    // MapStruct
+    implementation "org.mapstruct:mapstruct:${MAPSTRUCT_VERSION}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${MAPSTRUCT_VERSION}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

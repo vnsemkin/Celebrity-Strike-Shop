@@ -2,36 +2,37 @@ package org.duckdns.celebritystrike.celebritystrike.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.duckdns.celebritystrike.celebritystrike.dto.RequestDataDto;
+import org.duckdns.celebritystrike.celebritystrike.dto.req.GameReqDto;
+import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameRespDto;
+import org.duckdns.celebritystrike.celebritystrike.mapper.GameMapper;
+import org.duckdns.celebritystrike.celebritystrike.model.Result;
+import org.duckdns.celebritystrike.celebritystrike.service.application.GameService;
 import org.duckdns.celebritystrike.celebritystrike.service.web_handlers.DefaultWebHandler;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
-@RestController()
+@RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AppController {
+    private final GameService gameService;
     private final DefaultWebHandler handler;
 
-    @GetMapping("/send-message")
-    public String getHello(@RequestBody RequestDataDto requestDataDto) {
-        if(requestDataDto.chatId() == null) {
-            return "Chat id is null";
-        }
-        long chatId = Long.parseLong(requestDataDto.chatId());
-        log.info("Get request data: method getHello: {}", requestDataDto);
-        handler.send(chatId);
-        return "Get req received: Hello from backend";
+    @GetMapping("/games")
+    public Result<List<GameRespDto>> getGames() {
+        // TODO add pagination
+        return gameService.getGames();
     }
 
-    @PostMapping("/send-message")
-    public String postHello(@RequestBody RequestDataDto requestDataDto) {
-        if(requestDataDto.chatId() == null) {
-            return "Chat id is null";
+    @PostMapping("/games")
+    public Result<String> saveGames(@RequestBody GameReqDto gameReqDto) {
+        // TODO add validation and wrap to Result
+        if(gameReqDto == null) {
+            log.error("Post req received: null");
+            return Result.<String>builder().success(false).data(null).message("Post req received: null").build();
         }
-        long chatId = Long.parseLong(requestDataDto.chatId());
-        log.info("Get request data: method postHello: {}", requestDataDto);
-        handler.send(chatId);
-        return "Post req received: Hello from backend";
+        return gameService.saveGames(gameReqDto);
     }
 }

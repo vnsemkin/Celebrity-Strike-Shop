@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameRespDto;
-import org.duckdns.celebritystrike.celebritystrike.mapper.GameMapper;
 import org.duckdns.celebritystrike.celebritystrike.model.Result;
 import org.duckdns.celebritystrike.celebritystrike.service.application.GameService;
 import org.duckdns.celebritystrike.celebritystrike.service.web_handlers.DefaultWebHandler;
@@ -23,6 +22,7 @@ public class AppController {
     @GetMapping("/games")
     public Result<List<GameRespDto>> getGames() {
         // TODO add pagination
+        log.info("Get request data: method getGames");
         return gameService.getGames();
     }
 

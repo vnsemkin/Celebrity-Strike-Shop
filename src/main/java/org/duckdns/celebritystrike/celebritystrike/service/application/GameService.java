@@ -28,7 +28,7 @@ public class GameService {
 
   public Result<List<GameRespDto>> getGames() {
     try {
-      List<GameRespDto> gameRespDtoList = gameMapper.toGameRespDtoList(gameRepository.findAll());
+      List<GameRespDto> gameRespDtoList = gameMapper.toRespDtoList(gameRepository.findAll());
       return Result.<List<GameRespDto>>builder()
           .success(true)
           .data(gameRespDtoList)
@@ -47,10 +47,11 @@ public class GameService {
   public Result<GameRespDto> getGameById(@NonNull int id) {
     try {
       GameRespDto gameRespDto =
-          gameMapper.toGameRespDto(
+          gameMapper.toRespDto(
               gameRepository
                   .findById(id)
-                  .orElseThrow(() -> new GameNotFoundException(String.format(GAME_NOT_FOUND_ID, id))));
+                  .orElseThrow(
+                      () -> new GameNotFoundException(String.format(GAME_NOT_FOUND_ID, id))));
       String GAME_WITH_ID_FOUND = "Game with id %d found";
       return Result.<GameRespDto>builder()
           .success(true)
@@ -67,32 +68,32 @@ public class GameService {
     }
   }
 
-  public Result<GameRespDto> getGameByName(@NonNull GameByNameReq req) {
+  public Result<GameRespDto> getGameByName(@NonNull String name) {
     try {
       GameRespDto gameRespDto =
-              gameMapper.toGameRespDto(
-                      gameRepository
-                              .findGameEntityByName(req.name())
-                              .orElseThrow(() -> new GameNotFoundException(String
-                                      .format(GAME_NOT_FOUND_NAME, req.name()))));
+          gameMapper.toRespDto(
+              gameRepository
+                  .findByNameIgnoreCase(name)
+                  .orElseThrow(
+                      () -> new GameNotFoundException(String.format(GAME_NOT_FOUND_NAME, name))));
       return Result.<GameRespDto>builder()
-              .success(true)
-              .data(gameRespDto)
-              .message(String.format(GAME_WITH_NAME_FOUND, req.name()))
-              .build();
+          .success(true)
+          .data(gameRespDto)
+          .message(String.format(GAME_WITH_NAME_FOUND, name))
+          .build();
     } catch (Exception e) {
       log.error(e.getMessage());
       return Result.<GameRespDto>builder()
-              .success(false)
-              .data(null)
-              .message(e.getMessage())
-              .build();
+          .success(false)
+          .data(null)
+          .message(e.getMessage())
+          .build();
     }
   }
 
   public Result<String> saveGame(@NonNull GameReqDto gameReqDto) {
     try {
-      GameEntity gameEntity = gameMapper.toGameEntity(gameReqDto);
+      GameEntity gameEntity = gameMapper.toEntity(gameReqDto);
       GameEntity saved = gameRepository.save(gameEntity);
       return Result.<String>builder()
           .success(true)

@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface GameRepository extends JpaRepository<GameEntity, Integer> {
-    Optional<GameEntity> findGameEntityByName(String gameName);
+    Optional<GameEntity> findGameEntityByName(String name);
+    Optional<GameEntity> findByNameIgnoreCase(String name);
 }

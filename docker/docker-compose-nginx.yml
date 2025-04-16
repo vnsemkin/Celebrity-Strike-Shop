@@ -10,7 +10,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/etc/nginx/certs:ro
-      - /docker/vhost.d:/etc/nginx/vhost.d:ro
+      - /nginx/vhost.d:/etc/nginx/vhost.d:ro
       - html:/usr/share/nginx/html
 
   letsencrypt:
@@ -23,7 +23,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - certs:/etc/nginx/certs:rw
-      - /docker/vhost.d:/etc/nginx/vhost.d:ro
+      - /nginx/vhost.d:/etc/nginx/vhost.d:ro
       - html:/usr/share/nginx/html
     networks:
       - celebrity_network
@@ -32,5 +32,4 @@ networks:
     external: true
 volumes:
   certs:
-  vhost:
   html:

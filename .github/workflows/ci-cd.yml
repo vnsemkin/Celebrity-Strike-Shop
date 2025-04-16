@@ -71,10 +71,10 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: 22
           source: "nginx/vhost.d/"
-          target: "/docker/vhost.d/"
+          target: "/nginx/vhost.d/"
           timeout: 300s
           proxy_timeout: 180s
-          strip_components: 1
+          strip_components: 2
 
       # New step: Copy docker-compose-nginx.yml to remote server
       - name: Copy docker-compose-nginx.yml to remote server

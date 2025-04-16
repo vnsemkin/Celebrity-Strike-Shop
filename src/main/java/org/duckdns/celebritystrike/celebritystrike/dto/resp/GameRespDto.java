@@ -4,6 +4,7 @@ import java.util.List;
 
 public record GameRespDto(
          Long id,
+         String name,
          String title,
          String description,
          String instruction,

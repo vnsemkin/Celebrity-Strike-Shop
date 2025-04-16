@@ -27,14 +27,14 @@ public class AppController {
         return gameService.getGames();
     }
 
-    @GetMapping("/games/{id}")
+    @GetMapping("/games/{id:[0-9]+}")
     public Result<GameRespDto> getGamesById(@PathVariable int id) {
         log.info("Get request data: method getGamesById: {}", id);
         return gameService.getGameById(id);
     }
 
 
-    @GetMapping("/games/{name}")
+    @GetMapping("{name:[a-zA-Z]+}")
     public Result<GameRespDto> getGamesByName(@PathVariable GameByNameReq name) {
         log.info("Get request data: method getGamesByName: {}", name.name());
         return gameService.getGameByName(name);

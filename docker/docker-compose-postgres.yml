@@ -1,0 +1,21 @@
+name: celebrity-strike-postgres
+services:
+  celebrity-strike-db:
+    image: postgres:17
+    container_name: celebrity-strike-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${CELEBRITY_STRIKE_DB}
+      POSTGRES_USER: ${CELEBRITY_STRIKE_USER}
+      POSTGRES_PASSWORD: ${CELEBRITY_STRIKE_PASSWORD}
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - celebrity_network
+networks:
+  celebrity_network:
+    external: true
+volumes:
+  postgres_data:

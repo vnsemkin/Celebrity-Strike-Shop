@@ -1,0 +1,26 @@
+name: celebrity-strike-app
+services:
+  celebrity-strike-backend:
+    image: celebrity-strike:latest
+    container_name: celebrity-strike
+    restart: always
+    environment:
+      - DATABASE_HOST=celebrity-strike-db
+      - VIRTUAL_PORT=18080
+      - VIRTUAL_HOST=celebrity-strike.duckdns.org
+      - LETSENCRYPT_HOST=celebrity-strike.duckdns.org
+      - LETSENCRYPT_EMAIL=gotziev@gmail.com
+      - BOT_TOKEN=${BOT_TOKEN}
+    expose:
+      - "18080"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    networks:
+      - celebrity_network
+networks:
+  celebrity_network:
+    external: true

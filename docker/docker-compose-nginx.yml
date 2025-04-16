@@ -1,0 +1,36 @@
+name: celebrity-strike-nginx
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - ../nginx/vhost.d:/etc/nginx/vhost.d:ro
+      - html:/usr/share/nginx/html
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: nginx-letsencrypt
+    restart: always
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+      - ACME_CA_URI=https://acme-v02.api.letsencrypt.org/directory
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - ../nginx/vhost.d:/etc/nginx/vhost.d:rw
+      - html:/usr/share/nginx/html
+    networks:
+      - celebrity_network
+networks:
+  celebrity_network:
+    external: true
+volumes:
+  certs:
+  vhost:
+  html:

@@ -54,11 +54,11 @@ public class AppConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry
-        .addMapping("/api/v1/**")
-        .allowedOrigins(frontendUrl)
-        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-        .allowedHeaders("Content-Type", "Authorization")
-        .allowCredentials(true)
-        .maxAge(3600);
+            .addMapping("/**")                    // охватить все эндпоинты
+            .allowedOriginPatterns("*")           // разрешить все Origin (паттерн)
+            .allowedMethods("*")                  // разрешить все HTTP‑методы
+            .allowedHeaders("*")                  // разрешить все заголовки
+            .allowCredentials(true)               // если нужны куки/авторизация
+            .maxAge(3600);
   }
 }

@@ -3,14 +3,15 @@ package org.duckdns.celebritystrike.celebritystrike.service.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.duckdns.celebritystrike.celebritystrike.dao.GameRepository;
+import org.duckdns.celebritystrike.celebritystrike.dto.req.GameByNameReq;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameRespDto;
 import org.duckdns.celebritystrike.celebritystrike.entity.GameEntity;
+import org.duckdns.celebritystrike.celebritystrike.exception.GameNotFoundException;
 import org.duckdns.celebritystrike.celebritystrike.mapper.GameMapper;
 import org.duckdns.celebritystrike.celebritystrike.model.Result;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,55 +19,93 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GameService {
-    private final GameMapper gameMapper;
-    private final GameRepository gameRepository;
+  private final GameMapper gameMapper;
+  private final GameRepository gameRepository;
 
-    public Result<List<GameRespDto>> getGames() {
-        try {
-            List<GameRespDto> gameRespDtoList = gameMapper.toGameRespDtoList(gameRepository.findAll());
-            return Result.<List<GameRespDto>>builder()
-                    .success(true)
-                    .data(gameRespDtoList)
-                    .message("Games found")
-                    .build();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return Result.<List<GameRespDto>>builder()
-                    .success(false)
-                    .data(null)
-                    .message(e.getMessage())
-                    .build();
-        }
-    }
+  private final String GAME_NOT_FOUND_ID = "Game with id %d not found";
+  private final String GAME_NOT_FOUND_NAME = "Game with name %s not found";
+  private final String GAME_WITH_NAME_FOUND = "Game with name %s found";
 
-    @Transactional
-    public Result<String> saveGames(@NonNull GameReqDto gameReqDto) {
-        try {
-            log.info("Post req received: {}", gameReqDto);
-            GameEntity gameEntity = gameMapper.toGameEntity(gameReqDto);
-            
-            // Initialize collections if null
-            if (gameEntity.getImageEntities() == null) {
-                gameEntity.setImageEntities(List.of());
-            }
-            if (gameEntity.getItems() == null) {
-                gameEntity.setItems(List.of());
-            }
-            
-            log.info("Game entity: {}", gameEntity);
-            GameEntity saved = gameRepository.save(gameEntity);
-            return Result.<String>builder()
-                    .success(true)
-                    .data("Game with id: " + saved.getId() + " saved")
-                    .message("Game saved")
-                    .build();
-        } catch (Exception e) {
-            log.error("Error saving game: {}", e.getMessage(), e);
-            return Result.<String>builder()
-                    .success(false)
-                    .data(null)
-                    .message("Error saving game: " + e.getMessage())
-                    .build();
-        }
+  public Result<List<GameRespDto>> getGames() {
+    try {
+      List<GameRespDto> gameRespDtoList = gameMapper.toGameRespDtoList(gameRepository.findAll());
+      return Result.<List<GameRespDto>>builder()
+          .success(true)
+          .data(gameRespDtoList)
+          .message("Games")
+          .build();
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Result.<List<GameRespDto>>builder()
+          .success(false)
+          .data(null)
+          .message(e.getMessage())
+          .build();
     }
+  }
+
+  public Result<GameRespDto> getGameById(@NonNull int id) {
+    try {
+      GameRespDto gameRespDto =
+          gameMapper.toGameRespDto(
+              gameRepository
+                  .findById(id)
+                  .orElseThrow(() -> new GameNotFoundException(String.format(GAME_NOT_FOUND_ID, id))));
+      String GAME_WITH_ID_FOUND = "Game with id %d found";
+      return Result.<GameRespDto>builder()
+          .success(true)
+          .data(gameRespDto)
+          .message(String.format(GAME_WITH_ID_FOUND, id))
+          .build();
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Result.<GameRespDto>builder()
+          .success(false)
+          .data(null)
+          .message(e.getMessage())
+          .build();
+    }
+  }
+
+  public Result<GameRespDto> getGameByName(@NonNull GameByNameReq req) {
+    try {
+      GameRespDto gameRespDto =
+              gameMapper.toGameRespDto(
+                      gameRepository
+                              .findGameEntityByName(req.name())
+                              .orElseThrow(() -> new GameNotFoundException(String
+                                      .format(GAME_NOT_FOUND_NAME, req.name()))));
+      return Result.<GameRespDto>builder()
+              .success(true)
+              .data(gameRespDto)
+              .message(String.format(GAME_WITH_NAME_FOUND, req.name()))
+              .build();
+    } catch (Exception e) {
+      log.error(e.getMessage());
+      return Result.<GameRespDto>builder()
+              .success(false)
+              .data(null)
+              .message(e.getMessage())
+              .build();
+    }
+  }
+
+  public Result<String> saveGame(@NonNull GameReqDto gameReqDto) {
+    try {
+      GameEntity gameEntity = gameMapper.toGameEntity(gameReqDto);
+      GameEntity saved = gameRepository.save(gameEntity);
+      return Result.<String>builder()
+          .success(true)
+          .data("Game with id: " + saved.getId() + " saved")
+          .message("Game saved to Database")
+          .build();
+    } catch (Exception e) {
+      log.error("Error saving game: {}", e.getMessage(), e);
+      return Result.<String>builder()
+          .success(false)
+          .data(null)
+          .message("Error saving game: " + e.getMessage())
+          .build();
+    }
+  }
 }

@@ -48,3 +48,6 @@ COLUMN description TYPE TEXT;
 ALTER TABLE games
 ALTER
 COLUMN instruction TYPE TEXT;
+
+-- changeset vnsemkin:7
+ALTER TABLE game ADD COLUMN name VARCHAR(255) NOT NULL;

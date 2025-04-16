@@ -2,6 +2,7 @@ package org.duckdns.celebritystrike.celebritystrike.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.duckdns.celebritystrike.celebritystrike.dto.req.GameByNameReq;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameRespDto;
 import org.duckdns.celebritystrike.celebritystrike.model.Result;
@@ -26,6 +27,19 @@ public class AppController {
         return gameService.getGames();
     }
 
+    @GetMapping("/games/{id}")
+    public Result<GameRespDto> getGamesById(@PathVariable int id) {
+        log.info("Get request data: method getGamesById: {}", id);
+        return gameService.getGameById(id);
+    }
+
+
+    @GetMapping("/games/{name}")
+    public Result<GameRespDto> getGamesByName(@PathVariable GameByNameReq name) {
+        log.info("Get request data: method getGamesByName: {}", name.name());
+        return gameService.getGameByName(name);
+    }
+
     @PostMapping("/games")
     public Result<String> saveGames(@RequestBody GameReqDto gameReqDto) {
         // TODO add validation and wrap to Result
@@ -33,6 +47,6 @@ public class AppController {
             log.error("Post req received: null");
             return Result.<String>builder().success(false).data(null).message("Post req received: null").build();
         }
-        return gameService.saveGames(gameReqDto);
+        return gameService.saveGame(gameReqDto);
     }
 }

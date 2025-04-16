@@ -11,6 +11,10 @@ services:
       - LETSENCRYPT_HOST=celebrity-strike.duckdns.org
       - LETSENCRYPT_EMAIL=gotziev@gmail.com
       - BOT_TOKEN=${BOT_TOKEN}
+      - CELEBRITY_STRIKE_DB=${CELEBRITY_STRIKE_DB}
+      - CELEBRITY_STRIKE_USER=${CELEBRITY_STRIKE_USER}
+      - CELEBRITY_STRIKE_PASSWORD=${CELEBRITY_STRIKE_PASSWORD}
+      - DATABASE_HOST=celebrity-strike-db
     expose:
       - "18080"
     deploy:

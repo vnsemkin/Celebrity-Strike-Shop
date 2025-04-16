@@ -12,6 +12,7 @@ import org.mapstruct.Mapper;
 import org.duckdns.celebritystrike.celebritystrike.entity.ImageEntity;
 import org.mapstruct.Mapping;
 import org.mapstruct.AfterMapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface GameMapper {
     ImageEntity toImageEntity(ImageReqDto dto);
     
     @AfterMapping
-    default void linkEntities(GameReqDto dto, @org.mapstruct.MappingTarget GameEntity gameEntity) {
+    default void linkEntities(GameReqDto dto, @MappingTarget GameEntity gameEntity) {
         if (dto.images() != null) {
             dto.images().forEach(imageReqDto -> {
                 ImageEntity imageEntity = toImageEntity(imageReqDto);

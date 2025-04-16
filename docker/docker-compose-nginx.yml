@@ -12,6 +12,8 @@ services:
       - certs:/etc/nginx/certs:ro
       - /nginx/vhost.d:/etc/nginx/vhost.d:ro
       - html:/usr/share/nginx/html
+    networks:
+      - celebrity_network
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion

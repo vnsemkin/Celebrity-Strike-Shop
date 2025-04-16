@@ -24,7 +24,9 @@ services:
         reservations:
           memory: 512M
     networks:
-      - celebrity_network
+      celebrity_network:
+        aliases:
+          - celebrity-strike
 networks:
   celebrity_network:
     external: true

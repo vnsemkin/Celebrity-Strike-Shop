@@ -39,3 +39,4 @@ out/
 /src/main/resources/application-dev.yml
 /docker/docker-compose-dev.yml
 /docker/dev/
+/docker-dev/

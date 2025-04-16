@@ -70,7 +70,7 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: 22
-          source: "docker/docker-compose-nginx.yml"
+          source: "docker/*"
           target: "/docker/"
           timeout: 300s
           proxy_timeout: 180s

@@ -2,7 +2,6 @@ package org.duckdns.celebritystrike.celebritystrike.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.duckdns.celebritystrike.celebritystrike.dto.req.GameByNameReq;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameUpdateReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.ImageCreateReqDto;

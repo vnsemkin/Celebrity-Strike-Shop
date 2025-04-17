@@ -376,12 +376,16 @@ components:
           type: array
           description: List of images associated with the game
           items:
-            $ref: '#/components/schemas/ImageCreateReqDto'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/ImageCreateReqDto'
         items:
           type: array
           description: List of game items
           items:
-            $ref: '#/components/schemas/GameItemCreateReqDto'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/GameItemCreateReqDto'
     GameUpdateReqDto:
       type: object
       properties:
@@ -417,12 +421,16 @@ components:
           type: array
           description: List of images associated with the game
           items:
-            $ref: '#/components/schemas/ImageRespDto'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/ImageRespDto'
         items:
           type: array
           description: List of game items
           items:
-            $ref: '#/components/schemas/GameItemRespDto'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/GameItemRespDto'
     ImageCreateReqDto:
       type: object
       required:

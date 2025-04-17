@@ -65,6 +65,12 @@ public class AppController {
         return gameService.updateGame(name, gameUpdateReqDto);
     }
 
+    @DeleteMapping("/games/{name}")
+    public Result<String> deleteGame(@PathVariable String name) {
+        log.info("Delete request data: method deleteGame: name={}", name);
+        return gameService.deleteGame(name);
+    }
+
     @PostMapping("/images")
     public Result<ImageRespDto> createImage(@RequestBody ImageCreateReqDto imageCreateReqDto) {
         log.info("Post request data: method createImage");

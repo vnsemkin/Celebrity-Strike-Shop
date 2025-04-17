@@ -135,6 +135,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultGameRespDto'
+    delete:
+      summary: Delete game by name
+      description: Deletes a game and all its associated images and items
+      operationId: deleteGame
+      tags:
+        - Games
+      parameters:
+        - name: name
+          in: path
+          description: Game name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Game deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+        '404':
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
 
   /images:
     post:

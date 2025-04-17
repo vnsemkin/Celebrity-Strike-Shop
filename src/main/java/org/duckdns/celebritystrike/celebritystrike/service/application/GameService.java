@@ -145,4 +145,26 @@ public class GameService {
           .build();
     }
   }
+
+  public Result<String> deleteGame(@NonNull String name) {
+    try {
+      GameEntity game = gameRepository.findByNameIgnoreCase(name)
+          .orElseThrow(() -> new GameNotFoundException(String.format(GAME_NOT_FOUND_NAME, name)));
+      
+      gameRepository.delete(game);
+      
+      return Result.<String>builder()
+          .success(true)
+          .data("Game deleted successfully")
+          .message("Game with name " + name + " has been deleted")
+          .build();
+    } catch (Exception e) {
+      log.error("Error deleting game: {}", e.getMessage(), e);
+      return Result.<String>builder()
+          .success(false)
+          .data(null)
+          .message("Error deleting game: " + e.getMessage())
+          .build();
+    }
+  }
 }

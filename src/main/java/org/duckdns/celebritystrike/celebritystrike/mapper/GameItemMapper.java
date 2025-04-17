@@ -1,10 +1,12 @@
 package org.duckdns.celebritystrike.celebritystrike.mapper; // Choose your mapper package
 
-import org.duckdns.celebritystrike.celebritystrike.dto.req.GameItemReqDto;
+import org.duckdns.celebritystrike.celebritystrike.dto.req.GameItemCreateReqDto;
+import org.duckdns.celebritystrike.celebritystrike.dto.req.GameItemUpdateReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameItemRespDto;
 import org.duckdns.celebritystrike.celebritystrike.entity.GameItemEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -19,7 +21,9 @@ public interface GameItemMapper {
 
     @Mapping(target = "id", ignore = true) // Don't map ID from request
     @Mapping(target = "game", ignore = true) // Game reference will be set by the GameMapper
-    GameItemEntity toEntity(GameItemReqDto dto);
+    GameItemEntity toEntity(GameItemCreateReqDto dto);
 
-    List<GameItemEntity> toEntityList(List<GameItemReqDto> dtos);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "game", ignore = true)
+    void updateEntityFromDto(GameItemUpdateReqDto dto, @MappingTarget GameItemEntity entity);
 }

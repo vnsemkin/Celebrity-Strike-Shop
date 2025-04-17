@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.duckdns.celebritystrike.celebritystrike.dao.GameRepository;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameByNameReq;
 import org.duckdns.celebritystrike.celebritystrike.dto.req.GameReqDto;
+import org.duckdns.celebritystrike.celebritystrike.dto.req.GameUpdateReqDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameRespDto;
 import org.duckdns.celebritystrike.celebritystrike.entity.GameEntity;
 import org.duckdns.celebritystrike.celebritystrike.exception.GameNotFoundException;
@@ -106,6 +107,38 @@ public class GameService {
           .success(false)
           .data(null)
           .message("Error saving game: " + e.getMessage())
+          .build();
+    }
+  }
+
+  public Result<GameRespDto> updateGame(@NonNull String name, @NonNull GameUpdateReqDto gameUpdateReqDto) {
+    try {
+      GameEntity existingGame = gameRepository.findByNameIgnoreCase(name)
+          .orElseThrow(() -> new GameNotFoundException(String.format(GAME_NOT_FOUND_NAME, name)));
+      
+      if (gameUpdateReqDto.title() != null) {
+          existingGame.setTitle(gameUpdateReqDto.title());
+      }
+      if (gameUpdateReqDto.description() != null) {
+          existingGame.setDescription(gameUpdateReqDto.description());
+      }
+      if (gameUpdateReqDto.instruction() != null) {
+          existingGame.setInstruction(gameUpdateReqDto.instruction());
+      }
+      
+      GameEntity updated = gameRepository.save(existingGame);
+      
+      return Result.<GameRespDto>builder()
+          .success(true)
+          .data(gameMapper.toRespDto(updated))
+          .message("Game updated successfully")
+          .build();
+    } catch (Exception e) {
+      log.error("Error updating game: {}", e.getMessage(), e);
+      return Result.<GameRespDto>builder()
+          .success(false)
+          .data(null)
+          .message("Error updating game: " + e.getMessage())
           .build();
     }
   }

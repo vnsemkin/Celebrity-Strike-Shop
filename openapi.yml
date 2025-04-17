@@ -103,6 +103,217 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResultGameRespDto'
+    put:
+      summary: Update game by name
+      description: Updates an existing game's fields by its name
+      operationId: updateGame
+      tags:
+        - Games
+      parameters:
+        - name: name
+          in: path
+          description: Game name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameUpdateReqDto'
+      responses:
+        '200':
+          description: Game updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultGameRespDto'
+        '404':
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultGameRespDto'
+
+  /images:
+    post:
+      summary: Create a new image
+      description: Creates a new image for a game
+      operationId: createImage
+      tags:
+        - Images
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageCreateReqDto'
+      responses:
+        '200':
+          description: Image created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultImageRespDto'
+        '404':
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultImageRespDto'
+
+  /images/{id}:
+    put:
+      summary: Update image
+      description: Updates an existing image
+      operationId: updateImage
+      tags:
+        - Images
+      parameters:
+        - name: id
+          in: path
+          description: Image ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageUpdateReqDto'
+      responses:
+        '200':
+          description: Image updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultImageRespDto'
+        '404':
+          description: Image not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultImageRespDto'
+    delete:
+      summary: Delete image
+      description: Deletes an image
+      operationId: deleteImage
+      tags:
+        - Images
+      parameters:
+        - name: id
+          in: path
+          description: Image ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Image deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+        '404':
+          description: Image not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+
+  /game-items:
+    post:
+      summary: Create a new game item
+      description: Creates a new game item for a game
+      operationId: createGameItem
+      tags:
+        - Game Items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameItemCreateReqDto'
+      responses:
+        '200':
+          description: Game item created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultGameItemRespDto'
+        '404':
+          description: Game not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultGameItemRespDto'
+
+  /game-items/{id}:
+    put:
+      summary: Update game item
+      description: Updates an existing game item
+      operationId: updateGameItem
+      tags:
+        - Game Items
+      parameters:
+        - name: id
+          in: path
+          description: Game Item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GameItemUpdateReqDto'
+      responses:
+        '200':
+          description: Game item updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultGameItemRespDto'
+        '404':
+          description: Game item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultGameItemRespDto'
+    delete:
+      summary: Delete game item
+      description: Deletes a game item
+      operationId: deleteGameItem
+      tags:
+        - Game Items
+      parameters:
+        - name: id
+          in: path
+          description: Game Item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Game item deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+        '404':
+          description: Game item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+
 components:
   schemas:
     ResultListGameRespDto:
@@ -171,6 +382,18 @@ components:
           description: List of game items
           items:
             $ref: '#/components/schemas/GameItemReqDto'
+    GameUpdateReqDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the game
+        description:
+          type: string
+          description: Description of the game
+        instruction:
+          type: string
+          description: Instructions for the game
     GameRespDto:
       type: object
       properties:
@@ -200,7 +423,19 @@ components:
           description: List of game items
           items:
             $ref: '#/components/schemas/GameItemRespDto'
-    ImageReqDto:
+    ImageCreateReqDto:
+      type: object
+      required:
+        - imageUrl
+        - gameName
+      properties:
+        imageUrl:
+          type: string
+          description: URL of the image
+        gameName:
+          type: string
+          description: Name of the game to associate the image with
+    ImageUpdateReqDto:
       type: object
       required:
         - imageUrl
@@ -218,7 +453,47 @@ components:
         imageUrl:
           type: string
           description: URL of the image
-    GameItemReqDto:
+    ResultImageRespDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+        data:
+          $ref: '#/components/schemas/ImageRespDto'
+          description: Image data
+        message:
+          type: string
+          description: Response message
+    GameItemCreateReqDto:
+      type: object
+      required:
+        - name
+        - type
+        - region
+        - price
+        - gameName
+      properties:
+        name:
+          type: string
+          description: Name of the game item
+        type:
+          type: string
+          description: Type of the game item
+        region:
+          type: string
+          description: Region of the game item
+        details:
+          type: string
+          description: Additional details about the game item
+        price:
+          type: integer
+          format: int32
+          description: Price of the game item
+        gameName:
+          type: string
+          description: Name of the game to associate the item with
+    GameItemUpdateReqDto:
       type: object
       required:
         - name
@@ -264,4 +539,16 @@ components:
         price:
           type: integer
           format: int32
-          description: Price of the game item 
+          description: Price of the game item
+    ResultGameItemRespDto:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+        data:
+          $ref: '#/components/schemas/GameItemRespDto'
+          description: Game item data
+        message:
+          type: string
+          description: Response message 

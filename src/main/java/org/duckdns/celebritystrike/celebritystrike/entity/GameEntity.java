@@ -28,14 +28,12 @@ public class GameEntity {
   @OneToMany(
       mappedBy = "game",
       cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      fetch = FetchType.EAGER)
+      orphanRemoval = true)
   private List<ImageEntity> images = new ArrayList<>();
 
   @OneToMany(
       mappedBy = "game",
       cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      fetch = FetchType.EAGER)
+      orphanRemoval = true)
   private List<GameItemEntity> items = new ArrayList<>();
 }

@@ -20,76 +20,82 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    private final ImageMapper imageMapper;
-    private final ImageRepository imageRepository;
-    private final GameRepository gameRepository;
+  private final ImageMapper imageMapper;
+  private final ImageRepository imageRepository;
+  private final GameRepository gameRepository;
 
-    public Result<ImageRespDto> createImage(@NonNull ImageCreateReqDto dto) {
-        try {
-            GameEntity game = gameRepository.findByNameIgnoreCase(dto.gameName())
-                .orElseThrow(() -> new GameNotFoundException("Game with name " + dto.gameName() + " not found"));
-            
-            ImageEntity image = imageMapper.toEntity(dto);
-            image.setGame(game);
-            ImageEntity saved = imageRepository.save(image);
-            
-            return Result.<ImageRespDto>builder()
-                .success(true)
-                .data(imageMapper.toRespDto(saved))
-                .message("Image created successfully")
-                .build();
-        } catch (Exception e) {
-            log.error("Error creating image: {}", e.getMessage(), e);
-            return Result.<ImageRespDto>builder()
-                .success(false)
-                .data(null)
-                .message("Error creating image: " + e.getMessage())
-                .build();
-        }
-    }
+  public Result<ImageRespDto> createImage(@NonNull ImageCreateReqDto dto) {
+    try {
+      GameEntity game =
+          gameRepository
+              .findByNameIgnoreCase(dto.gameName())
+              .orElseThrow(
+                  () ->
+                      new GameNotFoundException("Game with name " + dto.gameName() + " not found"));
 
-    public Result<ImageRespDto> updateImage(@NonNull Long id, @NonNull ImageUpdateReqDto dto) {
-        try {
-            ImageEntity image = imageRepository.findById(id)
-                .orElseThrow(() -> new ImageNotFoundException("Image with id " + id + " not found"));
-            
-            imageMapper.updateEntityFromDto(dto, image);
-            ImageEntity updated = imageRepository.save(image);
-            
-            return Result.<ImageRespDto>builder()
-                .success(true)
-                .data(imageMapper.toRespDto(updated))
-                .message("Image updated successfully")
-                .build();
-        } catch (Exception e) {
-            log.error("Error updating image: {}", e.getMessage(), e);
-            return Result.<ImageRespDto>builder()
-                .success(false)
-                .data(null)
-                .message("Error updating image: " + e.getMessage())
-                .build();
-        }
-    }
+      ImageEntity image = imageMapper.toEntity(dto);
+      image.setGame(game);
+      ImageEntity saved = imageRepository.save(image);
 
-    public Result<String> deleteImage(@NonNull Long id) {
-        try {
-            if (!imageRepository.existsById(id)) {
-                throw new ImageNotFoundException("Image with id " + id + " not found");
-            }
-            
-            imageRepository.deleteById(id);
-            return Result.<String>builder()
-                .success(true)
-                .data("Image deleted successfully")
-                .message("Image with id " + id + " has been deleted")
-                .build();
-        } catch (Exception e) {
-            log.error("Error deleting image: {}", e.getMessage(), e);
-            return Result.<String>builder()
-                .success(false)
-                .data(null)
-                .message("Error deleting image: " + e.getMessage())
-                .build();
-        }
+      return Result.<ImageRespDto>builder()
+          .success(true)
+          .data(imageMapper.toRespDto(saved))
+          .message("Image created successfully")
+          .build();
+    } catch (Exception e) {
+      log.error("Error creating image: {}", e.getMessage(), e);
+      return Result.<ImageRespDto>builder()
+          .success(false)
+          .data(null)
+          .message("Error creating image: " + e.getMessage())
+          .build();
     }
-} 
+  }
+
+  public Result<ImageRespDto> updateImage(@NonNull Long id, @NonNull ImageUpdateReqDto dto) {
+    try {
+      ImageEntity image =
+          imageRepository
+              .findById(id)
+              .orElseThrow(() -> new ImageNotFoundException("Image with id " + id + " not found"));
+
+      imageMapper.updateEntityFromDto(dto, image);
+      ImageEntity updated = imageRepository.save(image);
+
+      return Result.<ImageRespDto>builder()
+          .success(true)
+          .data(imageMapper.toRespDto(updated))
+          .message("Image updated successfully")
+          .build();
+    } catch (Exception e) {
+      log.error("Error updating image: {}", e.getMessage(), e);
+      return Result.<ImageRespDto>builder()
+          .success(false)
+          .data(null)
+          .message("Error updating image: " + e.getMessage())
+          .build();
+    }
+  }
+
+  public Result<String> deleteImage(@NonNull Long id) {
+    try {
+      if (!imageRepository.existsById(id)) {
+        throw new ImageNotFoundException("Image with id " + id + " not found");
+      }
+
+      imageRepository.deleteById(id);
+      return Result.<String>builder()
+          .success(true)
+          .data("Image deleted successfully")
+          .message("Image with id " + id + " has been deleted")
+          .build();
+    } catch (Exception e) {
+      log.error("Error deleting image: {}", e.getMessage(), e);
+      return Result.<String>builder()
+          .success(false)
+          .data(null)
+          .message("Error deleting image: " + e.getMessage())
+          .build();
+    }
+  }
+}

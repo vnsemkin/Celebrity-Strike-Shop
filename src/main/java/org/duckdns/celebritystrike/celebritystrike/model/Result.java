@@ -18,7 +18,7 @@ public class Result<T> {
         return Optional.ofNullable(data);
     }
 
-    public Optional<String> getErrorMessage() {
+    public Optional<String> getMessage() {
         return Optional.ofNullable(message);
     }
 }

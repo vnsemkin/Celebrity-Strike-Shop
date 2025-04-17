@@ -110,23 +110,27 @@ public class GameService {
     }
   }
 
-  public Result<GameRespDto> updateGame(@NonNull String name, @NonNull GameUpdateReqDto gameUpdateReqDto) {
+  public Result<GameRespDto> updateGame(
+      @NonNull String name, @NonNull GameUpdateReqDto gameUpdateReqDto) {
     try {
-      GameEntity existingGame = gameRepository.findByNameIgnoreCase(name)
-          .orElseThrow(() -> new GameNotFoundException(String.format(GAME_NOT_FOUND_NAME, name)));
-      
+      GameEntity existingGame =
+          gameRepository
+              .findByNameIgnoreCase(name)
+              .orElseThrow(
+                  () -> new GameNotFoundException(String.format(GAME_NOT_FOUND_NAME, name)));
+
       if (gameUpdateReqDto.title() != null) {
-          existingGame.setTitle(gameUpdateReqDto.title());
+        existingGame.setTitle(gameUpdateReqDto.title());
       }
       if (gameUpdateReqDto.description() != null) {
-          existingGame.setDescription(gameUpdateReqDto.description());
+        existingGame.setDescription(gameUpdateReqDto.description());
       }
       if (gameUpdateReqDto.instruction() != null) {
-          existingGame.setInstruction(gameUpdateReqDto.instruction());
+        existingGame.setInstruction(gameUpdateReqDto.instruction());
       }
-      
+
       GameEntity updated = gameRepository.save(existingGame);
-      
+
       return Result.<GameRespDto>builder()
           .success(true)
           .data(gameMapper.toRespDto(updated))

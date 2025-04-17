@@ -13,8 +13,8 @@ import org.duckdns.celebritystrike.celebritystrike.dto.resp.ImageRespDto;
 import org.duckdns.celebritystrike.celebritystrike.dto.resp.GameItemRespDto;
 import org.duckdns.celebritystrike.celebritystrike.model.Result;
 import org.duckdns.celebritystrike.celebritystrike.service.application.GameService;
-import org.duckdns.celebritystrike.celebritystrike.service.application.ImageService;
 import org.duckdns.celebritystrike.celebritystrike.service.application.GameItemService;
+import org.duckdns.celebritystrike.celebritystrike.service.application.ImageService;
 import org.duckdns.celebritystrike.celebritystrike.service.web_handlers.DefaultWebHandler;
 import org.springframework.web.bind.annotation.*;
 

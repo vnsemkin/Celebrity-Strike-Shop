@@ -387,7 +387,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GameRespDto'
-          description: List of games
         message:
           type: string
           description: Response message
@@ -399,7 +398,6 @@ components:
           description: Indicates if the operation was successful
         data:
           $ref: '#/components/schemas/GameRespDto'
-          description: Game data
         message:
           type: string
           description: Response message
@@ -530,7 +528,6 @@ components:
           description: Indicates if the operation was successful
         data:
           $ref: '#/components/schemas/ImageRespDto'
-          description: Image data
         message:
           type: string
           description: Response message

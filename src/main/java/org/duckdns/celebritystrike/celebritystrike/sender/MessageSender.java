@@ -1,5 +1,7 @@
 package org.duckdns.celebritystrike.celebritystrike.sender;
 
+import lombok.extern.slf4j.Slf4j;
+import org.duckdns.celebritystrike.celebritystrike.exception.TelegramMessageException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
+@Slf4j
 @Component
 public class MessageSender {
     private final TelegramClient client;
@@ -21,7 +24,8 @@ public class MessageSender {
             try {
                 client.execute(sm);
             } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
+                log.error("Failed to send Telegram message: {}", e.getMessage(), e);
+                throw new TelegramMessageException("Failed to send Telegram message", e);
             }
         }
     }

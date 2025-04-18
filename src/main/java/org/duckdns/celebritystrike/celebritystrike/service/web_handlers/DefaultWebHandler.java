@@ -17,7 +17,6 @@ public class DefaultWebHandler {
 
   public Result<String> send(long chatId, @NonNull MessageToChatReq messageToChatReq) {
     String message = messageToChatReq.message();
-    try {
       log.info("Sending message to chat {}: {}", chatId, message);
       sender.send(MessageComposer.composeSendMessage(chatId, message));
       return Result.<String>builder()
@@ -25,13 +24,5 @@ public class DefaultWebHandler {
           .data("Message sent successfully")
           .message("Message sent to chat " + chatId)
           .build();
-    } catch (Exception e) {
-      log.error("Error sending message: {}", e.getMessage(), e);
-      return Result.<String>builder()
-          .success(false)
-          .data(null)
-          .message("Error sending message: " + e.getMessage())
-          .build();
-    }
   }
 }

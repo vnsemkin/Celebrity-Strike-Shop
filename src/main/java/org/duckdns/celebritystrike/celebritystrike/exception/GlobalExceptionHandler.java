@@ -51,5 +51,15 @@ public class GlobalExceptionHandler {
         log.info("Game not found: {}", ex.getMessage());
         return Result.<String>builder().success(false).message(String.format(GAME_NOT_FOUND, ex.getMessage())).build();
     }
+
+    @ExceptionHandler(TelegramMessageException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result<String> handleTelegramMessageException(TelegramMessageException ex) {
+        log.error("Telegram message error: {}", ex.getMessage());
+        return Result.<String>builder()
+                .success(false)
+                .message("Telegram message error: " + ex.getMessage())
+                .build();
+    }
 }
 

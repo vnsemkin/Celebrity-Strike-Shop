@@ -340,6 +340,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResultString'
 
+  /chat/send-message/{id}:
+    post:
+      summary: Send message to chat
+      description: Sends a message to a specific chat by ID
+      operationId: sendMessage
+      tags:
+        - Chat
+      parameters:
+        - name: id
+          in: path
+          description: Chat ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageToChatReq'
+      responses:
+        '200':
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+        '404':
+          description: Chat not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultString'
+
 components:
   schemas:
     ResultListGameRespDto:
@@ -585,4 +620,12 @@ components:
           description: Game item data
         message:
           type: string
-          description: Response message 
+          description: Response message
+    MessageToChatReq:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The message content to be sent to chat 
